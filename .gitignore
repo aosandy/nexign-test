@@ -1,6 +1,10 @@
 # .idea files
 .idea
 
+# reports and cdr files
+reports
+*.txt
+
 # Compiled class file
 *.class
 

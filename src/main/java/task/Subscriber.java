@@ -21,6 +21,10 @@ public class Subscriber {
         calls.add(call);
     }
 
+    public String getNumber() {
+        return number;
+    }
+
     public Set<Call> getCalls() {
         return calls;
     }
