@@ -10,7 +10,11 @@ import java.time.format.DateTimeFormatter;
 
 public class ReportBuilder {
 
-    public void buildReport(Subscriber subscriber) throws IOException {
+    private ReportBuilder() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static void buildReport(Subscriber subscriber) throws IOException {
         String reportFolder = "reports";
         String reportFileName = "report_" + subscriber.getNumber() + ".txt";
 
@@ -31,7 +35,7 @@ public class ReportBuilder {
                 String startTime = call.getTimeStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 String endTime = call.getTimeEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 String duration = formatDuration(call.getDuration());
-                String cost = String.format("%.2f", call.getPrice()).replace(",", ".");
+                String cost = String.format("%.2f", call.getCost()).replace(",", ".");
                 String row = String.format("|     %2s    | %9s | %19s | %8s |%6.6s |%n",
                     callType, startTime, endTime, duration, cost);
                 writer.write(row);
@@ -44,7 +48,7 @@ public class ReportBuilder {
         }
     }
 
-    private String formatDuration(Duration duration) {
+    private static String formatDuration(Duration duration) {
         return String.format("%02d:%02d:%02d",
             duration.toHours(),
             duration.toMinutesPart(),

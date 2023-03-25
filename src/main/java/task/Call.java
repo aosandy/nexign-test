@@ -4,16 +4,16 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Call {
-    private CallType callType;
-    private LocalDateTime timeStart;
-    private LocalDateTime timeEnd;
+    private final CallType callType;
+    private final LocalDateTime timeStart;
+    private final LocalDateTime timeEnd;
     private Duration duration;
-    private double price;
+    private double cost;
 
-    public Call(CallDataRecord cdr) {
-        this.callType = cdr.getCallType();
-        this.timeStart = cdr.getTimeStart();
-        this.timeEnd = cdr.getTimeEnd();
+    public Call(CallType callType, LocalDateTime timeStart, LocalDateTime timeEnd) {
+        this.callType = callType;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
         this.duration = Duration.between(timeStart, timeEnd);
     }
 
@@ -33,27 +33,15 @@ public class Call {
         return duration;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setCallType(CallType callType) {
-        this.callType = callType;
-    }
-
-    public void setTimeStart(LocalDateTime timeStart) {
-        this.timeStart = timeStart;
-    }
-
-    public void setTimeEnd(LocalDateTime timeEnd) {
-        this.timeEnd = timeEnd;
-    }
-
     public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 }

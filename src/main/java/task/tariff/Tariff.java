@@ -3,8 +3,8 @@ package task.tariff;
 import task.Call;
 
 public abstract class Tariff {
-    private final int index;
     private static final double FIXED_COST = 0.0;
+    private final int index;
 
     Tariff() {
         this.index = 0;
@@ -16,10 +16,14 @@ public abstract class Tariff {
 
     public static Tariff createByIndex(int index) {
         switch (index) {
-            case 3: return new TariffByMinute(index);
-            case 6: return new TariffUnlimited300(index);
-            case 11: return new TariffRegular(index);
-            default: throw new IllegalArgumentException("Invalid tariff index: " + index);
+            case 3:
+                return new TariffByMinute(index);
+            case 6:
+                return new TariffUnlimited300(index);
+            case 11:
+                return new TariffRegular(index);
+            default:
+                throw new IllegalArgumentException("Invalid tariff index: " + index);
         }
     }
 

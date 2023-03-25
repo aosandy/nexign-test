@@ -4,10 +4,9 @@ import task.tariff.Tariff;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -20,36 +19,37 @@ public class Main {
             URL resource = Main.class.getClassLoader().getResource(CDR_FILE_NAME);
             File cdrFile = Paths.get(resource.toURI()).toFile();
 
-            Map<String, Subscriber> subscribers = parseCdrFileToMap(cdrFile);
+            Map<String, Subscriber> subscribers = parseCdrFileToSubsMap(cdrFile);
 
-            ReportBuilder reportBuilder = new ReportBuilder();
             for (Subscriber subscriber : subscribers.values()) {
-                reportBuilder.buildReport(subscriber);
+                ReportBuilder.buildReport(subscriber);
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static Map<String, Subscriber> parseCdrFileToMap(File cdrFile) throws FileNotFoundException {
+    private static Map<String, Subscriber> parseCdrFileToSubsMap(File cdrFile) throws FileNotFoundException, ParseException {
         try (Scanner scanner = new Scanner(cdrFile)) {
             Map<String, Subscriber> subscribers = new HashMap<>();
+            CallDataRecord cdr = new CallDataRecord();
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
-                CallDataRecord cdr = new CallDataRecord(data);
+                cdr.setData(data);
 
                 String number = cdr.getNumber();
                 Tariff tariff = Tariff.createByIndex(cdr.getTariffIndex());
                 if (!subscribers.containsKey(number)) {
                     subscribers.put(number, new Subscriber(number, tariff));
                 }
-                Call call = new Call(cdr);
-                subscribers.get(number).addCall(call);
+
+                subscribers.get(number).appendCall(
+                    CallType.valueOfIndex(cdr.getCallTypeIndex()),
+                    cdr.getDateTimeStart(),
+                    cdr.getDateTimeEnd()
+                );
             }
             return subscribers;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
         }
     }
 }

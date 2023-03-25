@@ -2,31 +2,33 @@ package task;
 
 import task.tariff.Tariff;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Subscriber {
+    private final Set<Call> calls;
     private String number;
     private Tariff tariff;
-    private Set<Call> calls;
 
     public Subscriber(String number, Tariff tariff) {
         if (tariff == null) {
-            throw new IllegalStateException("Tariff must not be null"); // Создастся ли объект??
+            throw new NullPointerException("Tariff is null.");
         }
         this.number = number;
         this.tariff = tariff;
         this.calls = new TreeSet<>(Comparator.comparing(Call::getTimeStart));
     }
 
-    public void addCall(Call call) {
-        call.setPrice(tariff.calculateCallCost(call));
+    public void appendCall(CallType callType, LocalDateTime timeStart, LocalDateTime timeEnd) {
+        Call call = new Call(callType, timeStart, timeEnd);
+        call.setCost(tariff.calculateCallCost(call));
         calls.add(call);
     }
 
     public double calculateTotalCost() {
-        return calls.stream().mapToDouble(Call::getPrice).sum() + tariff.getFixedCost();
+        return calls.stream().mapToDouble(Call::getCost).sum() + tariff.getFixedCost();
     }
 
     public String getNumber() {
@@ -47,9 +49,5 @@ public class Subscriber {
 
     public Set<Call> getCalls() {
         return calls;
-    }
-
-    public void setCalls(Set<Call> calls) {
-        this.calls = calls;
     }
 }
