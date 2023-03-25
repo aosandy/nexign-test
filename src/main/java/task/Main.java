@@ -7,9 +7,7 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static final String CDR_FILE_NAME = "cdr.txt";
@@ -19,9 +17,9 @@ public class Main {
             URL resource = Main.class.getClassLoader().getResource(CDR_FILE_NAME);
             File cdrFile = Paths.get(resource.toURI()).toFile();
 
-            Map<String, Subscriber> subscribers = parseCdrFileToSubsMap(cdrFile);
+            Collection<Subscriber> subscribers = parseCdrFileToSubsCollection(cdrFile);
 
-            for (Subscriber subscriber : subscribers.values()) {
+            for (Subscriber subscriber : subscribers) {
                 ReportBuilder.buildReport(subscriber);
             }
         } catch (Exception e) {
@@ -29,7 +27,7 @@ public class Main {
         }
     }
 
-    private static Map<String, Subscriber> parseCdrFileToSubsMap(File cdrFile) throws FileNotFoundException, ParseException {
+    private static Collection<Subscriber> parseCdrFileToSubsCollection(File cdrFile) throws FileNotFoundException, ParseException {
         try (Scanner scanner = new Scanner(cdrFile)) {
             Map<String, Subscriber> subscribers = new HashMap<>();
             CallDataRecord cdr = new CallDataRecord();
@@ -49,7 +47,7 @@ public class Main {
                     cdr.getDateTimeEnd()
                 );
             }
-            return subscribers;
+            return subscribers.values();
         }
     }
 }
