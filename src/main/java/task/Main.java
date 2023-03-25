@@ -1,9 +1,6 @@
 package task;
 
-import task.tariff.MinuteByMinuteTariff;
-import task.tariff.RegularTariff;
 import task.tariff.Tariff;
-import task.tariff.UnlimitedTariff;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,9 +17,11 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            URL resource = Main.class.getResource(CDR_FILE_NAME);
+            URL resource = Main.class.getClassLoader().getResource(CDR_FILE_NAME);
             File cdrFile = Paths.get(resource.toURI()).toFile();
+
             Map<String, Subscriber> subscribers = parseCdrFileToMap(cdrFile);
+
             ReportBuilder reportBuilder = new ReportBuilder();
             for (Subscriber subscriber : subscribers.values()) {
                 reportBuilder.buildReport(subscriber);
@@ -40,7 +39,7 @@ public class Main {
                 CallDataRecord cdr = new CallDataRecord(data);
 
                 String number = cdr.getNumber();
-                Tariff tariff = indexToTariff(cdr.getTariffIndex());
+                Tariff tariff = Tariff.createByIndex(cdr.getTariffIndex());
                 if (!subscribers.containsKey(number)) {
                     subscribers.put(number, new Subscriber(number, tariff));
                 }
@@ -51,15 +50,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
-        }
-    }
-
-    private static Tariff indexToTariff(int index) {
-        switch (index) {
-            case 3: return new MinuteByMinuteTariff();
-            case 6: return new UnlimitedTariff();
-            case 11: return new RegularTariff();
-            default: throw new IllegalStateException();
         }
     }
 }
