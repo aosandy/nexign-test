@@ -1,9 +1,8 @@
 # .idea files
 .idea
 
-# reports and cdr files
-reports
-*.txt
+# target files
+target
 
 # Compiled class file
 *.class
