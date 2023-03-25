@@ -11,6 +11,10 @@ public class TariffUnlimited300 extends Tariff {
 
     private Duration totalDuration = Duration.ofSeconds(0);
 
+    TariffUnlimited300(int index) {
+        super(index);
+    }
+
     @Override
     public double calculateCallCost(Call call) {
         totalDuration = totalDuration.plus(call.getDuration());

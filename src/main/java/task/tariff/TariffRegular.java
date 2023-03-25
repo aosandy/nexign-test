@@ -12,6 +12,10 @@ public class TariffRegular extends Tariff {
     private final Tariff tariffByMinute = new TariffByMinute();
     private Duration totalDuration = Duration.ofSeconds(0);
 
+    TariffRegular(int index) {
+        super(index);
+    }
+
     @Override
     public double calculateCallCost(Call call) {
         if (call.getCallType() == CallType.INCOMING) {

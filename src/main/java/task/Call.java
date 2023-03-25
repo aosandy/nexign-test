@@ -17,11 +17,43 @@ public class Call {
         this.duration = Duration.between(timeStart, timeEnd);
     }
 
+    public CallType getCallType() {
+        return callType;
+    }
+
     public LocalDateTime getTimeStart() {
         return timeStart;
     }
 
+    public LocalDateTime getTimeEnd() {
+        return timeEnd;
+    }
+
     public Duration getDuration() {
         return duration;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setCallType(CallType callType) {
+        this.callType = callType;
+    }
+
+    public void setTimeStart(LocalDateTime timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public void setTimeEnd(LocalDateTime timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
