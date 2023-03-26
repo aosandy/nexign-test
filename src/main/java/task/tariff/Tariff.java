@@ -6,10 +6,6 @@ public abstract class Tariff {
     private static final double FIXED_COST = 0.0;
     private final int index;
 
-    Tariff() {
-        this.index = 0;
-    }
-
     Tariff(int index) {
         this.index = index;
     }

@@ -6,7 +6,7 @@ public class TariffByMinute extends Tariff {
     private static final double COST_BY_MINUTE = 1.5;
 
     TariffByMinute() {
-        super();
+        super(0);
     }
 
     TariffByMinute(int index) {
