@@ -22,7 +22,7 @@ public class TariffRegular extends Tariff {
             return 0.0;
         }
         totalDuration = totalDuration.plus(call.getDuration());
-        if (totalDuration.toMinutes() < MINUTE_LIMIT) {
+        if (durationToMinutes(totalDuration) <= MINUTE_LIMIT) {
             return call.getDuration().toMinutes() * COST_BY_MINUTE;
         } else {
             return tariffByMinute.calculateCallCost(call);

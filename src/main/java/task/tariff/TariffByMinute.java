@@ -1,6 +1,7 @@
 package task.tariff;
 
 import task.Call;
+import task.CallType;
 
 public class TariffByMinute extends Tariff {
     private static final double COST_BY_MINUTE = 1.5;
@@ -15,6 +16,9 @@ public class TariffByMinute extends Tariff {
 
     @Override
     public double calculateCallCost(Call call) {
-        return call.getDuration().toMinutes() * COST_BY_MINUTE;
+        if (call.getCallType() == CallType.INCOMING) {
+            return 0.0;
+        }
+        return durationToMinutes(call.getDuration()) * COST_BY_MINUTE;
     }
 }

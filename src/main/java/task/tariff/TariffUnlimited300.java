@@ -1,6 +1,7 @@
 package task.tariff;
 
 import task.Call;
+import task.CallType;
 
 import java.time.Duration;
 
@@ -17,11 +18,14 @@ public class TariffUnlimited300 extends Tariff {
 
     @Override
     public double calculateCallCost(Call call) {
+        if (call.getCallType() == CallType.INCOMING) {
+            return 0.0;
+        }
         totalDuration = totalDuration.plus(call.getDuration());
-        if (totalDuration.toMinutes() < MINUTE_LIMIT) {
+        if (durationToMinutes(totalDuration) <= MINUTE_LIMIT) {
             return 0.0;
         } else {
-            return call.getDuration().toMinutes() * COST_BY_MINUTE;
+            return durationToMinutes(call.getDuration()) * COST_BY_MINUTE;
         }
     }
 
