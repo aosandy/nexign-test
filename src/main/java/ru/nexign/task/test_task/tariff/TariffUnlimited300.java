@@ -1,7 +1,7 @@
-package task.tariff;
+package ru.nexign.task.test_task.tariff;
 
-import task.Call;
-import task.CallType;
+import ru.nexign.task.test_task.Call;
+import ru.nexign.task.test_task.CallType;
 
 import java.time.Duration;
 

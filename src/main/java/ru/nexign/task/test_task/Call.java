@@ -1,4 +1,4 @@
-package task;
+package ru.nexign.task.test_task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

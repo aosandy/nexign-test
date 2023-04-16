@@ -1,6 +1,6 @@
-package task;
+package ru.nexign.task.test_task;
 
-import task.tariff.Tariff;
+import ru.nexign.task.test_task.tariff.Tariff;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;

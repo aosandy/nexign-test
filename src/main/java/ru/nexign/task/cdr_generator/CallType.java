@@ -1,4 +1,4 @@
-package task;
+package ru.nexign.task.cdr_generator;
 
 import java.util.HashMap;
 import java.util.Map;
